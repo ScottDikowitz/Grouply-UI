@@ -5,7 +5,8 @@
   "main": "app.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch & node app.js"
+    "start": "webpack --watch & node app.js",
+    "hot": "webpack --watch & nodemon app.js"
   },
   "author": "Scott Dikowitz",
   "license": "ISC",
@@ -22,5 +23,8 @@
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
   }
 }

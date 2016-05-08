@@ -18,6 +18,7 @@ class Chat extends React.Component {
         var socket = this.socket;
         var that = this;
         socket.on('receive-comment', function(comment){
+            console.log(comment);
             that.setState({comments: that.state.comments.concat([comment.comment.comment])})
 
         });
