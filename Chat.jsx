@@ -11,7 +11,7 @@ class Chat extends React.Component {
 
         this.changeMessage = this.changeMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
-        this.socket = io.connect('http://localhost:3000');
+        this.socket = io.connect('http://localhost:8000');
     }
 
     componentDidMount() {
@@ -54,7 +54,7 @@ class Chat extends React.Component {
                   , width: '50%'
                   , flexDirection: 'column'
                 }}>
-                <a href='/auth/facebook'>FACEBOOKS</a>
+                <a href='http://localhost:8000/auth/facebook'>FACEBOOKS</a>
                 <input onChange={this.changeMessage} type="text" value={this.state.message}/>
                 <button style={{width: '50%'}} onClick={this.sendMessage}>send!</button>
                 <div>
