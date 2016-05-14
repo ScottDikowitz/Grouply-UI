@@ -3,23 +3,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './Chat';
 import {fetchUsers} from './actions/apiActions';
+import {Provider} from 'react-redux';
+import store from './store';
 
 class MyComponent extends React.Component{
     constructor(props) {
         super(props);
-
-        this._changed = this._changed.bind(this);
-        this.state = {
-            currentUser: ''
-        };
     }
 
     componentDidMount() {
         fetchUsers(this._changed);
-    }
-
-    _changed(currentUser){
-        this.setState({currentUser: currentUser.name});
     }
 
   render() {
@@ -32,18 +25,17 @@ class MyComponent extends React.Component{
                         textDecoration: 'none',
                         padding: 0,
                         margin: 0,
-                        fontSize: 'inherit'
+                        fontSize: 'inherit',
+                        fontFamily: 'inherit'
                     },
                     'body': {
                         margin: 0,
-                        background: 'transparent'
+                        background: 'whitesmoke',
+                        fontFamily: 'Arial'
                     }
                   }}
                 >
             </Style>
-            <div style={{background: '#ff3850', color: '#fff', padding: 20}}>
-                {this.state.currentUser || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
-            </div>
           <Chat/>
       </div>
     );
@@ -51,5 +43,5 @@ class MyComponent extends React.Component{
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  ReactDOM.render(<MyComponent />, document.getElementById('main'));
+  ReactDOM.render(<Provider store={store}><MyComponent /></Provider>, document.getElementById('main'));
 });

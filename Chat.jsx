@@ -1,5 +1,6 @@
 import Radium, {Style} from 'radium';
 import React from 'react';
+import {connect} from 'react-redux';
 
 class Chat extends React.Component {
     constructor(props){
@@ -46,6 +47,9 @@ class Chat extends React.Component {
                   , flex: 1
                   , flexDirection: 'column'
                 }}>
+                <div style={{background: '#ff3850', color: '#fff', padding: 20}}>
+                    {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
+                </div>
                     <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
                     <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
                         {this.state.comments.map((comment, i)=>
@@ -61,14 +65,8 @@ class Chat extends React.Component {
         );
     }
 }
-// <Style
-//     scopeSelector='.chat-bar'
-//     rules={{
-//         color: 'blue',
-//         '> *': {
-//             float: 'left'
-//         }
-//       }}
-//     >
-// </Style>
-export default Chat;
+function mapStateToProps(store) {
+    return {curUser: store.UserReducer.user};
+};
+
+export default connect(mapStateToProps)(Chat);
