@@ -1,6 +1,9 @@
 import Radium, {Style} from 'radium';
 import React from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {addMessage} from './actions/chatActions';
+
 
 class Chat extends React.Component {
     constructor(props){
@@ -8,7 +11,6 @@ class Chat extends React.Component {
 
         this.state = {
             message: ''
-          , comments: []
         };
 
         this.changeMessage = this.changeMessage.bind(this);
@@ -21,7 +23,8 @@ class Chat extends React.Component {
         var that = this;
         socket.on('receive-comment', function(comment){
             console.log(comment);
-            that.setState({comments: that.state.comments.concat([comment.comment.comment])})
+            that.props.onReceiveMessage(comment);
+            // that.setState({comments: that.state.comments.concat([comment.comment])})
 
         });
 
@@ -37,7 +40,6 @@ class Chat extends React.Component {
 
     sendMessage() {
         this.socket.emit('send-comment', {comment: this.state.message});
-
     }
 
     render() {
@@ -52,8 +54,8 @@ class Chat extends React.Component {
                 </div>
                     <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
                     <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
-                        {this.state.comments.map((comment, i)=>
-                                <div key={i} style={{}}>{'>'}{comment}</div>
+                        {this.props.comments.map((comment, i)=>
+                                <div key={i} style={{}}>{'>'}{comment.comment}</div>
                             )}
                     </div>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
@@ -66,7 +68,18 @@ class Chat extends React.Component {
     }
 }
 function mapStateToProps(store) {
-    return {curUser: store.UserReducer.user};
+    return {
+        curUser: store.UserReducer.user,
+        comments: store.ChatReducer.chat
+    };
 };
 
-export default connect(mapStateToProps)(Chat);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onReceiveMessage: (message) => {
+      dispatch(addMessage(message))
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Chat);

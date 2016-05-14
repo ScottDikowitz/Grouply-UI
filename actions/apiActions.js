@@ -9,8 +9,6 @@ export function fetchUsers(callback){
         withCredentials:true
     })
       .then(function (response) {
-        // callback(response.data.user.user2);
-
         store.dispatch(addUser(response.data.user.user2));
         console.log(response);
         return response;

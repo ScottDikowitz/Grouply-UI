@@ -5,7 +5,7 @@ var chatInitialState = {
 export default function(state = chatInitialState, action){
     switch(action.type) {
         case 'ADD_MESSAGE':
-            var newState = Object.assign({}, state);
+            var newState = {chat: state.chat.slice()};
             newState.chat.push(action.message);
             return newState;
 
