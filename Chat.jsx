@@ -1,3 +1,4 @@
+import Radium, {Style} from 'radium';
 import React from 'react';
 
 class Chat extends React.Component {
@@ -27,16 +28,6 @@ class Chat extends React.Component {
             console.log(data);
             socket.emit('my other event', {my: 'data'});
         });
-
-
-        // document.body.innerHTML += '<div id="body-div" style="width:100%;height:100%;background:#ccc;">content</div>';
-        //
-        // document.getElementById('send-socket').onclick = function(e){
-        //     var comment = document.getElementById('comment').value;
-        //     debugger;
-        //     socket.emit('send-comment', {comment: comment});
-        //     // socket.emit(comment);
-        // };
     }
 
     changeMessage(e) {
@@ -52,20 +43,32 @@ class Chat extends React.Component {
         return (
             <div style={{
                     display: 'flex'
-                  , width: '50%'
+                  , flex: 1
                   , flexDirection: 'column'
                 }}>
-                <a href='http://localhost:8000/auth/facebook'>FACEBOOKS</a>
-                <input onChange={this.changeMessage} type="text" value={this.state.message}/>
-                <button style={{width: '50%'}} onClick={this.sendMessage}>send!</button>
-                <div>
-                    {this.state.comments.map((comment, i)=>
-                            <div key={i} style={{}}>{comment}</div>
-                        )}
+                    <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
+                    <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
+                        {this.state.comments.map((comment, i)=>
+                                <div key={i} style={{}}>{'>'}{comment}</div>
+                            )}
+                    </div>
+                <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
+                    <input style={{height: 20, width: '50%', padding: 15, fontSize: 20}} onChange={this.changeMessage} type="text" value={this.state.message}/>
+                    <button style={{width: '20%'}} onClick={this.sendMessage}>send!</button>
+                </div>
                 </div>
             </div>
         );
     }
 }
-
+// <Style
+//     scopeSelector='.chat-bar'
+//     rules={{
+//         color: 'blue',
+//         '> *': {
+//             float: 'left'
+//         }
+//       }}
+//     >
+// </Style>
 export default Chat;

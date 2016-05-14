@@ -1,3 +1,4 @@
+import {Style} from 'radium';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './Chat';
@@ -10,7 +11,7 @@ class MyComponent extends React.Component{
         this._changed = this._changed.bind(this);
         this.state = {
             currentUser: ''
-        }
+        };
     }
 
     componentDidMount() {
@@ -24,15 +25,25 @@ class MyComponent extends React.Component{
   render() {
     return(
         <div style={{
-                display: 'flex'
-              , flex: 1
-              , flexDirection: 'column'
-              , alignItems: 'center'
-              , fontFamily: 'Arel'
-              , fontSize: 25
-              , justifyContent: 'center'
             }}>
-            {this.state.currentUser}
+            <Style
+                rules={{
+                    'a, div': {
+                        textDecoration: 'none',
+                        padding: 0,
+                        margin: 0,
+                        fontSize: 'inherit'
+                    },
+                    'body': {
+                        margin: 0,
+                        background: 'transparent'
+                    }
+                  }}
+                >
+            </Style>
+            <div style={{background: '#ff3850', color: '#fff', padding: 20}}>
+                {this.state.currentUser || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
+            </div>
           <Chat/>
       </div>
     );
