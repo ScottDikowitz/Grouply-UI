@@ -57,7 +57,7 @@ class Chat extends React.Component {
                   , flex: 1
                   , flexDirection: 'column'
                 }}>
-                <div style={{background: '#ff3850', color: '#fff', padding: 20}}>
+                <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
                     {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
                 </div>
                     <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
