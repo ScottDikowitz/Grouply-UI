@@ -14,6 +14,7 @@ class Chat extends React.Component {
         };
 
         this.changeMessage = this.changeMessage.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.socket = io.connect('http://localhost:8000');
     }
@@ -38,8 +39,15 @@ class Chat extends React.Component {
         this.setState({message: e.currentTarget.value});
     }
 
+    handleKeyPress(e) {
+        if (e.key === 'Enter') {
+          this.sendMessage();
+        }
+    }
+
     sendMessage() {
         this.socket.emit('send-comment', {comment: this.state.message});
+        this.setState({message: ''});
     }
 
     render() {
@@ -59,7 +67,7 @@ class Chat extends React.Component {
                             )}
                     </div>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
-                    <input style={{height: 20, width: '50%', padding: 15, fontSize: 20}} onChange={this.changeMessage} type="text" value={this.state.message}/>
+                    <input style={{height: 20, width: '50%', padding: 15, fontSize: 20}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
                     <button style={{width: '20%'}} onClick={this.sendMessage}>send!</button>
                 </div>
                 </div>
