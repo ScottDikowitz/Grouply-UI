@@ -63,7 +63,7 @@ class Chat extends React.Component {
                     <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
                     <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
                         {this.props.comments.map((comment, i)=>
-                                <div key={i} style={{}}>{'>'}{comment.comment}</div>
+                                <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
                             )}
                     </div>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
