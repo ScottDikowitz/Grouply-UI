@@ -16,7 +16,14 @@ class Chat extends React.Component {
         this.changeMessage = this.changeMessage.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this._curRoom = 'global';
         this.socket = io.connect('http://localhost:8000');
+        this.socket.on('connect', ()=> {
+            this.socket.emit("subscribe", { room: this._curRoom });
+        });
+        this.socket.on("roomChanged", function(data) {
+            console.log("roomChanged", data);
+        });
     }
 
     componentDidMount() {
@@ -33,6 +40,12 @@ class Chat extends React.Component {
             console.log(data);
             socket.emit('my other event', {my: 'data'});
         });
+    }
+
+    changeRoom(room){
+        this.socket.emit('unsubscribe', {room: this._curRoom});
+        this._curRoom = room;
+        this.socket.emit('subscribe', { room: room });
     }
 
     changeMessage(e) {
@@ -60,6 +73,9 @@ class Chat extends React.Component {
                 <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
                     {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
                 </div>
+                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
+                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
+                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
                     <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
                     <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
                         {this.props.comments.map((comment, i)=>
