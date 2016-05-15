@@ -18,6 +18,9 @@ class MyComponent extends React.Component{
   render() {
     return(
         <div style={{
+                display: 'flex',
+                flex: 1,
+                height:'100%'
             }}>
             <Style
                 rules={{

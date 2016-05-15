@@ -2,7 +2,7 @@ import Radium, {Style} from 'radium';
 import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {addMessage} from './actions/chatActions';
+import {addMessage, resetMessages} from './actions/chatActions';
 
 
 class Chat extends React.Component {
@@ -46,6 +46,7 @@ class Chat extends React.Component {
         this.socket.emit('unsubscribe', {room: this._curRoom});
         this._curRoom = room;
         this.socket.emit('subscribe', { room: room });
+        this.props.onChangeRoom();
     }
 
     changeMessage(e) {
@@ -73,10 +74,14 @@ class Chat extends React.Component {
                 <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
                     {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
                 </div>
-                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
-                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
-                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
-                    <div style={{bottom: 0, position: 'absolute', display: 'block', width: '100%'}}>
+                <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
+                <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column'}}>
+                    <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
+                    <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
+                    <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
+                </div>
+                <div style={{display:'flex', flex: 1, flexDirection: 'column'}}></div>
+                    <div style={{display: 'block', width: '100%'}}>
                     <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
                         {this.props.comments.map((comment, i)=>
                                 <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
@@ -101,8 +106,10 @@ function mapStateToProps(store) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onReceiveMessage: (message) => {
-      dispatch(addMessage(message))
-    }
+      dispatch(addMessage(message));
+  }, onChangeRoom: () => {
+      dispatch(resetMessages());
+  }
   }
 }
 

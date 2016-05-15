@@ -4,3 +4,9 @@ export function addMessage(message) {
     message: message
     };
 }
+
+export function resetMessages() {
+  return {
+    type: 'RESET_MESSAGES'
+    };
+}
