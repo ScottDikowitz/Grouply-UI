@@ -65,6 +65,7 @@ class Chat extends React.Component {
     }
 
     render() {
+        debugger;
         return (
             <div style={{
                     display: 'flex'
@@ -77,16 +78,23 @@ class Chat extends React.Component {
                 <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
                 <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 25 : 18}}>
                     <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5}}>
-                        <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
-                            <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
-                            <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
-                            <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
+                        <div>
+                            <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
+                                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
+                                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
+                                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
+                            </div>
+                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Rooms
+                                {this.props.rooms.map((room, i)=>
+                                    <div key={`room-${i}`}>{room}</div>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div style={{display:'flex', alignItems: 'flex-end', flex: 1, flexDirection: 'row', fontSize: '1.6em', padding: 15}}>
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             {this.props.comments.map((comment, i)=>
-                                    <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
+                                <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
                             )}
                         </div>
                     </div>
@@ -104,6 +112,7 @@ class Chat extends React.Component {
 function mapStateToProps(store) {
     return {
         curUser: store.UserReducer.user,
+        rooms: store.ChatReducer.rooms,
         comments: store.ChatReducer.chat
     };
 };

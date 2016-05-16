@@ -66,7 +66,6 @@ class Index extends React.Component{
   }
 }
 function mapStateToProps(store) {
-    debugger;
     return {
         dimensions: store.BrowserReducer.dimensions
     };
