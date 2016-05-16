@@ -87,7 +87,7 @@ class Chat extends React.Component {
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
                             </div>
-                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Rooms
+                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Users
                                 {this.props.users.map((user, i)=>
                                     <div key={`room-${i}`}>{user}</div>
                                 )}
