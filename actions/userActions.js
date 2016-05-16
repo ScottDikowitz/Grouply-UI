@@ -4,3 +4,10 @@ export function addUser(user) {
     user: user
     };
 }
+
+export function receiveUsers(users) {
+  return {
+    type: 'USERS_FOUND',
+    users: users
+    };
+}

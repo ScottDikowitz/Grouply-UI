@@ -2,6 +2,7 @@ import Radium, {Style} from 'radium';
 import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+import {receiveUsers} from './actions/userActions';
 import {addMessage, resetMessages} from './actions/chatActions';
 
 
@@ -36,9 +37,11 @@ class Chat extends React.Component {
 
         });
 
-        socket.on('news', function(data) {
-            console.log(data);
-            socket.emit('my other event', {my: 'data'});
+        socket.on('receive-users', function(users){
+            that.props.onReceiveUsers(users);
+            // that.props.onReceiveMessage(comment);
+            // that.setState({comments: that.state.comments.concat([comment.comment])})
+
         });
     }
 
@@ -65,7 +68,6 @@ class Chat extends React.Component {
     }
 
     render() {
-        debugger;
         return (
             <div style={{
                     display: 'flex'
@@ -80,13 +82,14 @@ class Chat extends React.Component {
                     <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5}}>
                         <div>
                             <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
+                                <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'global')}>global</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
                             </div>
                             <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Rooms
-                                {this.props.rooms.map((room, i)=>
-                                    <div key={`room-${i}`}>{room}</div>
+                                {this.props.users.map((user, i)=>
+                                    <div key={`room-${i}`}>{user}</div>
                                 )}
                             </div>
                         </div>
@@ -112,7 +115,7 @@ class Chat extends React.Component {
 function mapStateToProps(store) {
     return {
         curUser: store.UserReducer.user,
-        rooms: store.ChatReducer.rooms,
+        users: store.UserReducer.users,
         comments: store.ChatReducer.chat
     };
 };
@@ -123,6 +126,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addMessage(message));
   }, onChangeRoom: () => {
       dispatch(resetMessages());
+  }, onReceiveUsers: (users) => {
+      dispatch(receiveUsers(users));
   }
   }
 }
