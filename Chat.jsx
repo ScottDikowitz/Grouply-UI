@@ -75,7 +75,7 @@ class Chat extends React.Component {
                     {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
-                <div style={{display: 'flex', flexDirection: 'row', flex: 1}}>
+                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 25 : 18}}>
                     <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5}}>
                         <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
                             <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>

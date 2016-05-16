@@ -2,8 +2,7 @@ import axios from 'axios';
 import store from './../store';
 import {addUser} from './userActions';
 
-export function fetchUsers(callback){
-
+export function fetchUsers(){
     axios.get('http://localhost:8000/api/test',
     {
         withCredentials:true
