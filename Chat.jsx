@@ -75,18 +75,23 @@ class Chat extends React.Component {
                     {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
-                <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column'}}>
-                    <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
-                    <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
-                    <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
-                </div>
-                <div style={{display:'flex', flex: 1, flexDirection: 'column'}}></div>
-                    <div style={{display: 'block', width: '100%'}}>
-                    <div style={{marginLeft: '17%', fontSize: '1.6em', padding: 15}}>
-                        {this.props.comments.map((comment, i)=>
-                                <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
-                            )}
+                <div style={{display: 'flex', flexDirection: 'row', flex: 1}}>
+                    <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5}}>
+                        <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
+                            <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
+                            <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
+                            <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
+                        </div>
                     </div>
+                    <div style={{display:'flex', alignItems: 'flex-end', flex: 1, flexDirection: 'row', fontSize: '1.6em', padding: 15}}>
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                            {this.props.comments.map((comment, i)=>
+                                    <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                    <div style={{display: 'block', width: '100%'}}>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
                     <input style={{height: 20, width: '50%', padding: 15, fontSize: 20}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
                     <button style={{width: '20%'}} onClick={this.sendMessage}>send!</button>
