@@ -33,11 +33,15 @@ class Chat extends React.Component {
         socket.on('receive-comment', function(comment){
             console.log(comment);
             that.props.onReceiveMessage(comment);
+            var scrollbox = that.refs.scrollbox;
+            scrollbox.scrollTop = scrollbox.scrollHeight;
 
         });
 
         socket.on('receive-messages', function(messages){
             that.props.onReceiveMessages(messages);
+            var scrollbox = that.refs.scrollbox;
+            scrollbox.scrollTop = scrollbox.scrollHeight;
 
         });
 
@@ -80,7 +84,7 @@ class Chat extends React.Component {
                     {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
-                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 25 : 18}}>
+                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 14 : 14}}>
                     <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5}}>
                         <div>
                             <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
@@ -96,12 +100,10 @@ class Chat extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div style={{display:'flex', alignItems: 'flex-end', flex: 1, flexDirection: 'row', fontSize: '1.6em', padding: 15}}>
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <div ref='scrollbox' style={{display:'flex', alignItems: 'flex-start', flex: 1, flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll'}}>
                             {this.props.comments.map((comment, i)=>
-                                <div key={i} style={{}}>{comment.user.name}: {comment.comment}</div>
+                                <div key={`comment-${i}`} style={{}}>{comment.user.name}: {comment.comment}</div>
                             )}
-                        </div>
                     </div>
                 </div>
                     <div style={{display: 'block', width: '100%'}}>
