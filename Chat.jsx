@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {receiveUsers} from './actions/userActions';
-import {addMessage, resetMessages} from './actions/chatActions';
+import {addMessage, addMessages, resetMessages} from './actions/chatActions';
 
 
 class Chat extends React.Component {
@@ -37,8 +37,9 @@ class Chat extends React.Component {
 
         });
 
-        socket.on('receive-users', function(users){
-            that.props.onReceiveUsers(users);
+        socket.on('receive-users', function(data){
+            that.props.onReceiveUsers(data.users);
+            that.props.onReceiveMessages(data.messages);
             // that.props.onReceiveMessage(comment);
             // that.setState({comments: that.state.comments.concat([comment.comment])})
 
@@ -124,7 +125,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onReceiveMessage: (message) => {
       dispatch(addMessage(message));
-  }, onChangeRoom: () => {
+  }, onReceiveMessages: (messages) => {
+    dispatch(addMessages(messages));
+  },onChangeRoom: () => {
       dispatch(resetMessages());
   }, onReceiveUsers: (users) => {
       dispatch(receiveUsers(users));
