@@ -33,15 +33,16 @@ class Chat extends React.Component {
         socket.on('receive-comment', function(comment){
             console.log(comment);
             that.props.onReceiveMessage(comment);
-            // that.setState({comments: that.state.comments.concat([comment.comment])})
 
         });
 
-        socket.on('receive-users', function(data){
-            that.props.onReceiveUsers(data.users);
-            that.props.onReceiveMessages(data.messages);
-            // that.props.onReceiveMessage(comment);
-            // that.setState({comments: that.state.comments.concat([comment.comment])})
+        socket.on('receive-messages', function(messages){
+            that.props.onReceiveMessages(messages);
+
+        });
+
+        socket.on('receive-users', function(users){
+            that.props.onReceiveUsers(users);
 
         });
     }
