@@ -5,8 +5,11 @@
   "main": "app.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch & node app.js",
+    "start": "webpack & node app.js",
     "hot": "webpack --watch & nodemon app.js"
+  },
+  "engines": {
+    "node": "4.1.1"
   },
   "author": "Scott Dikowitz",
   "license": "ISC",
