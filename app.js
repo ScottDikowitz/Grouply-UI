@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
-app.set('port', 3000);
+app.set('port', process.env.PORT || 5000);
 var server = require('http').createServer(app);
-server.listen(3000);
+server.listen(process.env.PORT || 5000);
 
 
 var path = require('path');
