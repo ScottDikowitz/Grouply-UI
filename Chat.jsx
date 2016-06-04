@@ -18,7 +18,7 @@ class Chat extends React.Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this._curRoom = 'global';
-        this.socket = io.connect('https://grouplyapi.herokuapp.com:5000');
+        this.socket = io.connect('http://grouplyapi.herokuapp.com');
         this.socket.on('connect', ()=> {
             this.socket.emit("subscribe", { room: this._curRoom });
         });
