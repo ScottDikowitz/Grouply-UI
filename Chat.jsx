@@ -81,7 +81,7 @@ class Chat extends React.Component {
                   , flexDirection: 'column'
                 }}>
                 <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
-                    {this.props.curUser.name || <a style={{color: '#fff'}} href='http://localhost:8000/auth/facebook'>Facebook</a>}
+                    {this.props.curUser.name || <a style={{color: '#fff'}} href='http://grouplyapi.herokuapp.com/auth/facebook'>Facebook</a>}
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
                 <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 14 : 14}}>
