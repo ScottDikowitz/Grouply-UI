@@ -1,4 +1,7 @@
-To start this ui server, type npm run hot. Please also find the API repository at https://github.com/ScottDikowitz/Grouply-API.
+http://grouplyui.herokuapp.com/
+
+OLD DEPRECATED INSTRUCTIONS FOR RUNNING
+To start this ui server, type npm start. Please also find the API repository at https://github.com/ScottDikowitz/Grouply-API.
 Grouply is a responsive and modern chat client.
 
 Technologies/frameworks used:
