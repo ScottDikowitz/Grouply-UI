@@ -3,7 +3,7 @@ import store from './../store';
 import {addUser} from './userActions';
 
 export function fetchUsers(){
-    axios.get('http://localhost:8000/api/test',
+    axios.get('http://grouplyapi.herokuapp.com/api/test',
     {
         withCredentials:true
     })
