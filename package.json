@@ -5,7 +5,8 @@
   "main": "app.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack & node app.js",
+    "start": "webpack --define process.env.NODE_ENV='\"production\"' & node app.js",
+    "dev": "webpack & NODE_ENV=development node app.js",
     "hot": "webpack --watch & nodemon app.js"
   },
   "engines": {

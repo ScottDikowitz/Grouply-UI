@@ -1,7 +1,9 @@
 'use strict';
 
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
+var development = process.env.NODE_ENV !== 'production';
 module.exports = {
   context: __dirname,
   entry: path.join(__dirname, 'app.jsx'),
@@ -13,9 +15,15 @@ module.exports = {
 
 plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      template: development ? 'dev.html' : 'index.html',
       inject: true,
-      filename: 'index.html'
+      filename: development ? 'dev.html' : 'index.html'
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': development ? '"development"' : '"production"',
+      'API_SERVER': development ? '"http://localhost:8000"' : '"http://grouplyapi.herokuapp.com"'
+    }
   })],
   module: {
     loaders: [
