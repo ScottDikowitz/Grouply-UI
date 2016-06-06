@@ -49,6 +49,11 @@ class Chat extends React.Component {
             that.props.onReceiveUsers(users);
 
         });
+
+        socket.on('whisper', function(data){
+            alert(data.message);
+
+        });
     }
 
     changeRoom(room){
@@ -73,6 +78,10 @@ class Chat extends React.Component {
         this.setState({message: ''});
     }
 
+    privateMsg(socket) {
+        this.socket.emit('pvt-msg', {message: this.state.message, socket: socket});
+    }
+
     render() {
         return (
             <div style={{
@@ -95,8 +104,13 @@ class Chat extends React.Component {
                             </div>
                             <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Users
                                 {this.props.users.map((user, i)=>
-                                    <div key={`room-${i}`}>{user}</div>
+                                    <div onClick={this.privateMsg.bind(this, user.client)}
+                                         style={{cursor:'pointer'}}
+                                         key={`user-${i}`}>
+                                         {user.username}</div>
                                 )}
+                            </div>
+                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Private Chats
                             </div>
                         </div>
                     </div>
