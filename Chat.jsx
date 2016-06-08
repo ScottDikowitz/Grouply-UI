@@ -122,7 +122,7 @@ class Chat extends React.Component {
                 </div>
                     <div style={{display: 'block', width: '100%'}}>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
-                    <input style={{height: 20, width: '50%', padding: 15, fontSize: 20}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
+                    <input style={{height: 40, width: '50%', paddingLeft: 10, fontSize: 20}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
                     <button style={{width: '20%'}} onClick={this.sendMessage}>send!</button>
                 </div>
                 </div>
