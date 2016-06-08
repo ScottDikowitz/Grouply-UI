@@ -1,3 +1,5 @@
+import objectAssign from 'object-assign';
+
 var userInitialState = {
     user: {id: '', name: ''}, users: []
 };
@@ -5,11 +7,11 @@ var userInitialState = {
 export default function(state = userInitialState, action){
     switch(action.type) {
         case 'FOUND_USER':
-            var newState = Object.assign({}, state);
+            var newState = objectAssign({}, state);
             newState.user = action.user;
             return newState;
         case 'USERS_FOUND':
-            var newState = Object.assign({}, state);
+            var newState = objectAssign({}, state);
             newState.users = action.users;
             return newState;
         default:
