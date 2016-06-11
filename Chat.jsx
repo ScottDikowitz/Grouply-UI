@@ -18,6 +18,7 @@ class Chat extends React.Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this._curRoom = 'global';
+        this._canReceivePayload = true;
         this.socket = io.connect(process.env.API_SERVER);
         this.socket.on('connect', ()=> {
             this.socket.emit("subscribe", { room: this._curRoom });
@@ -39,9 +40,13 @@ class Chat extends React.Component {
         });
 
         socket.on('receive-messages', function(messages){
-            that.props.onReceiveMessages(messages);
-            var scrollbox = that.refs.scrollbox;
-            scrollbox.scrollTop = scrollbox.scrollHeight;
+            if (that._canReceivePayload){
+                that.props.onReceiveMessages(messages);
+                var scrollbox = that.refs.scrollbox;
+                scrollbox.scrollTop = scrollbox.scrollHeight;
+                that._canReceivePayload = false;
+            }
+
 
         });
 
@@ -57,6 +62,7 @@ class Chat extends React.Component {
     }
 
     changeRoom(room){
+        this._canReceivePayload = true;
         this.socket.emit('unsubscribe', {room: this._curRoom});
         this._curRoom = room;
         this.socket.emit('subscribe', { room: room });
