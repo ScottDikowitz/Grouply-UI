@@ -84,8 +84,11 @@ class Chat extends React.Component {
         this.setState({message: ''});
     }
 
-    privateMsg(socket) {
-        this.socket.emit('pvt-msg', {message: this.state.message, socket: socket});
+    privateMsg(socket, user) {
+        debugger;
+        if (this.props.curUser.id && user.loggedIn){
+            this.socket.emit('open-pvt-chat', {senderId: this.props.curUser.id, socket: socket});
+        }
     }
 
     render() {
@@ -110,7 +113,7 @@ class Chat extends React.Component {
                             </div>
                             <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Users
                                 {this.props.users.map((user, i)=>
-                                    <div onClick={this.privateMsg.bind(this, user.client)}
+                                    <div onClick={this.privateMsg.bind(this, user.client, user)}
                                          style={{cursor:'pointer'}}
                                          key={`user-${i}`}>
                                          {user.username}</div>
