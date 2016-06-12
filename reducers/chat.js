@@ -14,6 +14,12 @@ export default function(state = chatInitialState, action){
                 newState.chat.push({comment: el.comment, user: {name: el.name, id: el.id}});
             });
             return newState;
+        case 'ADD_PRIVATE_MESSAGES':
+            var newState = {chat: state.chat.slice(), rooms: state.rooms.slice()};
+            action.messages.forEach((el)=>{
+                newState.chat.push({comment: el.comment, user: {name: el.user.name}});
+            });
+            return newState;
         case 'RESET_MESSAGES':
             var newState = {chat: [], rooms: state.rooms.slice()};
             return newState;
