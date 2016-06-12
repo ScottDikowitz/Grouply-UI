@@ -17,3 +17,10 @@ export function resetMessages() {
     type: 'RESET_MESSAGES'
     };
 }
+
+export function addPrivateMessages(messages) {
+    return {
+      type: 'ADD_PRIVATE_MESSAGES',
+      messages: messages
+      };
+}

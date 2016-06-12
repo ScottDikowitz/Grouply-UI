@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {receiveUsers} from './actions/userActions';
-import {addMessage, addMessages, resetMessages} from './actions/chatActions';
+import {addMessage, addMessages, resetMessages, addPrivateMessages} from './actions/chatActions';
 
 
 class Chat extends React.Component {
@@ -17,6 +17,7 @@ class Chat extends React.Component {
         this.changeMessage = this.changeMessage.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this._isPrivateChat = false;
         this._curRoom = 'global';
         this._canReceivePayload = true;
         this.socket = io.connect(process.env.API_SERVER);
@@ -31,28 +32,30 @@ class Chat extends React.Component {
     componentDidMount() {
         var socket = this.socket;
         var that = this;
-        socket.on('receive-comment', function(comment){
+        socket.on('receive-comment', (comment)=>{
             console.log(comment);
-            that.props.onReceiveMessage(comment);
-            var scrollbox = that.refs.scrollbox;
+            this.props.onReceiveMessage(comment);
+            var scrollbox = this.refs.scrollbox;
             scrollbox.scrollTop = scrollbox.scrollHeight;
 
         });
 
-        socket.on('receive-messages', function(messages){
-            if (that._canReceivePayload){
-                that.props.onReceiveMessages(messages);
-                var scrollbox = that.refs.scrollbox;
+        socket.on('receive-messages', (messages)=>{
+            if (this._canReceivePayload){
+                this.props.onReceiveMessages(messages);
+                var scrollbox = this.refs.scrollbox;
                 scrollbox.scrollTop = scrollbox.scrollHeight;
-                that._canReceivePayload = false;
+                this._canReceivePayload = false;
             }
-
-
         });
 
-        socket.on('receive-users', function(users){
-            that.props.onReceiveUsers(users);
+        socket.on('receive-users', (users)=>{
+            this.props.onReceiveUsers(users);
+        });
 
+        socket.on('open-window', ({messages})=>{
+            this.props.onChangeRoom();
+            this.props.onReceivePrivateMessages(messages);
         });
 
         socket.on('whisper', function(data){
@@ -63,6 +66,7 @@ class Chat extends React.Component {
 
     changeRoom(room){
         this._canReceivePayload = true;
+        this._isPrivateChat = false;
         this.socket.emit('unsubscribe', {room: this._curRoom});
         this._curRoom = room;
         this.socket.emit('subscribe', { room: room });
@@ -80,14 +84,22 @@ class Chat extends React.Component {
     }
 
     sendMessage() {
-        this.socket.emit('send-comment', {comment: this.state.message});
-        this.setState({message: ''});
+        if (this._isPrivateChat){
+            this.socket.emit('send-pvt-message', {message: this.state.message, targetedSocket: this._targetedSocket});
+        } else {
+            this.socket.emit('send-comment', {comment: this.state.message});
+            this.setState({message: ''});
+        }
     }
 
     privateMsg(socket, user) {
-        debugger;
+        this._isPrivateChat = true;
         if (this.props.curUser.id && user.loggedIn){
+            this._curRoom = user.username;
+            this._targetedSocket = socket;
             this.socket.emit('open-pvt-chat', {senderId: this.props.curUser.id, socket: socket});
+        } else {
+            alert("Both users must be logged in to start a private chat.");
         }
     }
 
@@ -118,8 +130,6 @@ class Chat extends React.Component {
                                          key={`user-${i}`}>
                                          {user.username}</div>
                                 )}
-                            </div>
-                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Private Chats
                             </div>
                         </div>
                     </div>
@@ -153,7 +163,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addMessage(message));
   }, onReceiveMessages: (messages) => {
     dispatch(addMessages(messages));
-  },onChangeRoom: () => {
+  }, onReceivePrivateMessages: (messages) => {
+    dispatch(addPrivateMessages(messages));
+  }, onChangeRoom: () => {
       dispatch(resetMessages());
   }, onReceiveUsers: (users) => {
       dispatch(receiveUsers(users));
