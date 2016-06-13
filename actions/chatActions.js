@@ -24,3 +24,10 @@ export function addPrivateMessages(messages) {
       messages: messages
       };
 }
+
+export function receivePrivateChats(users) {
+    return {
+      type: 'ADD_PRIVATE_CHATS',
+      users: users
+      };
+}

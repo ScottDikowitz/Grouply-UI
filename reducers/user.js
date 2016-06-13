@@ -1,7 +1,7 @@
 import objectAssign from 'object-assign';
 
 var userInitialState = {
-    user: {id: '', name: ''}, users: []
+    user: {id: '', name: ''}, users: [], chats: []
 };
 
 export default function(state = userInitialState, action){
@@ -13,6 +13,10 @@ export default function(state = userInitialState, action){
         case 'USERS_FOUND':
             var newState = objectAssign({}, state);
             newState.users = action.users;
+            return newState;
+        case 'ADD_PRIVATE_CHATS':
+            var newState = objectAssign({}, state);
+            newState.chats = action.users;
             return newState;
         default:
             return state;

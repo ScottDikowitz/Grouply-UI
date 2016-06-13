@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {receiveUsers} from './actions/userActions';
-import {addMessage, addMessages, resetMessages, addPrivateMessages} from './actions/chatActions';
+import {addMessage, addMessages, resetMessages, addPrivateMessages, receivePrivateChats} from './actions/chatActions';
 
 
 class Chat extends React.Component {
@@ -49,6 +49,11 @@ class Chat extends React.Component {
             }
         });
 
+        socket.on('receive-chat-partners', (users)=>{
+            debugger;
+            this.props.onReceivePrivateChats(users);
+        });
+
         socket.on('receive-users', (users)=>{
             this.props.onReceiveUsers(users);
         });
@@ -85,10 +90,21 @@ class Chat extends React.Component {
 
     sendMessage() {
         if (this._isPrivateChat){
-            this.socket.emit('send-pvt-message', {message: this.state.message, targetedSocket: this._targetedSocket});
+            this.socket.emit('send-pvt-message', {message: this.state.message, targetedSocket: this._targetedUser.socket, userId: this._targetedUser.id});
         } else {
             this.socket.emit('send-comment', {comment: this.state.message});
             this.setState({message: ''});
+        }
+    }
+
+    privateChat(socket, user){
+        this._isPrivateChat = true;
+        if (this.props.curUser.id){
+            this._curRoom = user.username;
+            this._targetedUser = {socket: user.socket, id: user.facebookId};
+            this._targetedSocket = user.socket;
+            this._targetedFacebookId = user.facebookId;
+            this.socket.emit('open-pvt-chat-window', {senderId: this.props.curUser.id, socket: user.socket || '', facebookId: user.facebookId});
         }
     }
 
@@ -96,8 +112,8 @@ class Chat extends React.Component {
         this._isPrivateChat = true;
         if (this.props.curUser.id && user.loggedIn){
             this._curRoom = user.username;
-            this._targetedSocket = socket;
-            this.socket.emit('open-pvt-chat', {senderId: this.props.curUser.id, socket: socket});
+            this._targetedUser = {socket: user.socket, id: user.id};
+            this.socket.emit('open-pvt-chat', {senderId: this.props.curUser.id, socket: socket, id: user.id});
         } else {
             alert("Both users must be logged in to start a private chat.");
         }
@@ -131,6 +147,14 @@ class Chat extends React.Component {
                                          {user.username}</div>
                                 )}
                             </div>
+                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Open Chats
+                                {this.props.chats.map((user, i)=>
+                                    <div onClick={this.privateChat.bind(this, user.client, user)}
+                                         style={{cursor:'pointer'}}
+                                         key={`user-${i}`}>
+                                         {user.name}</div>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div ref='scrollbox' style={{display:'flex', alignItems: 'flex-start', flex: 1, flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll'}}>
@@ -153,23 +177,26 @@ function mapStateToProps(store) {
     return {
         curUser: store.UserReducer.user,
         users: store.UserReducer.users,
+        chats: store.UserReducer.chats,
         comments: store.ChatReducer.chat
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onReceiveMessage: (message) => {
-      dispatch(addMessage(message));
-  }, onReceiveMessages: (messages) => {
-    dispatch(addMessages(messages));
-  }, onReceivePrivateMessages: (messages) => {
-    dispatch(addPrivateMessages(messages));
-  }, onChangeRoom: () => {
-      dispatch(resetMessages());
-  }, onReceiveUsers: (users) => {
-      dispatch(receiveUsers(users));
-  }
+        onReceiveMessage: (message) => {
+          dispatch(addMessage(message));
+      }, onReceiveMessages: (messages) => {
+        dispatch(addMessages(messages));
+      }, onReceivePrivateMessages: (messages) => {
+        dispatch(addPrivateMessages(messages));
+      }, onChangeRoom: () => {
+          dispatch(resetMessages());
+      }, onReceiveUsers: (users) => {
+          dispatch(receiveUsers(users));
+      }, onReceivePrivateChats: (users) => {
+          dispatch(receivePrivateChats(users));
+      }
   }
 }
 
