@@ -27,12 +27,6 @@ Grouply is a responsive, slack-like chat app which uses the latest technologies 
   + Passport
   + Facebook OAuth
   + Socket.io
-* Python technologies
-  + MongoEngine
-  + BCrypt
-  + Flask-Script
-  + Flask-WTForms
-  + Flask-SocketIO
 * DB technologies
   + MongoDB/Mongoose
   + Redis
