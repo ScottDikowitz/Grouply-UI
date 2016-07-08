@@ -98,8 +98,12 @@ class Chat extends React.Component {
     }
 
     privateChat(socket, user){
-        this._isPrivateChat = true;
+        if (this.props.curUser.id === user.facebookId){
+            return false;
+        }
+
         if (this.props.curUser.id){
+            this._isPrivateChat = true;
             this._curRoom = user.username;
             this._targetedUser = {socket: user.socket, id: user.facebookId};
             this._targetedSocket = user.socket;
@@ -109,8 +113,13 @@ class Chat extends React.Component {
     }
 
     privateMsg(socket, user) {
-        this._isPrivateChat = true;
+
+        if (user.id === this.props.curUser.id){
+            return;
+        }
+
         if (this.props.curUser.id && user.loggedIn){
+            this._isPrivateChat = true;
             this._curRoom = user.username;
             this._targetedUser = {socket: user.socket, id: user.id};
             this.socket.emit('open-pvt-chat', {senderId: this.props.curUser.id, socket: socket, id: user.id});
