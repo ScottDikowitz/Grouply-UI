@@ -91,6 +91,7 @@ class Chat extends React.Component {
     sendMessage() {
         if (this._isPrivateChat){
             this.socket.emit('send-pvt-message', {message: this.state.message, targetedSocket: this._targetedUser.socket, userId: this._targetedUser.id});
+            this.setState({message: ''});
         } else {
             this.socket.emit('send-comment', {comment: this.state.message});
             this.setState({message: ''});
