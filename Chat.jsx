@@ -167,7 +167,7 @@ class Chat extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div ref='scrollbox' style={{display:'flex', alignItems: 'flex-start', flex: 1, flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll'}}>
+                    <div ref='scrollbox' style={{alignItems: 'flex-start', width: '100%', flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll'}}>
                             {this.props.comments.map((comment, i)=>
                                 <div key={`comment-${i}`} style={{}}>{comment.user.name}: {comment.comment}</div>
                             )}
