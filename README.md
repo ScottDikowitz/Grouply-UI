@@ -36,7 +36,7 @@ Grouply is a responsive, slack-like chat app which uses the latest technologies 
 - Incorporates latest JavaScript ES6 features and syntax
 - Webpack used to manage JavaScript module dependencies and to load ES6 and bundle
 - Logging in with Facebook establishes client to server WebSocket connection
-- Global chat room supported and private, peer to peer, chat coming soon
+- Global chat room and private, peer to peer chat supported
 - Stores user and chat messages in MongoDB, Sessions in Redis server
 
 ### Getting started
