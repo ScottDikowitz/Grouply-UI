@@ -50,7 +50,6 @@ class Chat extends React.Component {
         });
 
         socket.on('receive-chat-partners', (users)=>{
-            debugger;
             this.props.onReceivePrivateChats(users);
         });
 
@@ -118,7 +117,6 @@ class Chat extends React.Component {
         if (user.id === this.props.curUser.id){
             return;
         }
-
         if (this.props.curUser.id && user.loggedIn){
             this._isPrivateChat = true;
             this._curRoom = user.username;
@@ -139,17 +137,18 @@ class Chat extends React.Component {
                 <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
                     {this.props.curUser.name || <a style={{color: '#fff'}} href={process.env.API_SERVER + '/auth/facebook'}>Facebook</a>}
                 </div>
-                <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
                 <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 14 : 14}}>
-                    <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5}}>
+                    <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5, backgroundColor: '#4d394b', color: '#ab9ba9', width: 220}}>
                         <div>
                             <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
+                                <div style={{fontWeight: 'bold', WebkitFontSmoothing: 'antialiased', fontSize: '1.1em'}}>Channels</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'global')}>global</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomOne')}>room one</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomTwo')}>room two</div>
                                 <div style={{cursor: 'pointer'}} onClick={this.changeRoom.bind(this, 'roomThree')}>room three</div>
                             </div>
-                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Active Users
+                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>
+                                <div style={{fontWeight: 'bold', WebkitFontSmoothing: 'antialiased', fontSize: '1.1em'}}>Active Users</div>
                                 {this.props.users.map((user, i)=>
                                     <div onClick={this.privateMsg.bind(this, user.client, user)}
                                          style={{cursor:'pointer'}}
@@ -157,7 +156,8 @@ class Chat extends React.Component {
                                          {user.username}</div>
                                 )}
                             </div>
-                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>Open Chats
+                            <div style={{display: 'flex', marginTop: 5, flexDirection: 'column'}}>
+                                <div style={{fontWeight: 'bold', WebkitFontSmoothing: 'antialiased', fontSize: '1.1em'}}>Direct Messages</div>
                                 {this.props.chats.map((user, i)=>
                                     <div onClick={this.privateChat.bind(this, user.client, user)}
                                          style={{cursor:'pointer'}}
@@ -167,16 +167,22 @@ class Chat extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div ref='scrollbox' style={{alignItems: 'flex-start', width: '100%', flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll'}}>
-                            {this.props.comments.map((comment, i)=>
-                                <div key={`comment-${i}`} style={{}}>{comment.user.name}: {comment.comment}</div>
-                            )}
+                    <div style={{
+                            width: '100%'
+                          , display: 'flex'
+                          , flexDirection: 'column'
+                        }}>
+                        <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
+                        <div ref='scrollbox' style={{alignItems: 'flex-start', width: '100%', flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll', boxSizing: 'border-box'}}>
+                                {this.props.comments.map((comment, i)=>
+                                    <div key={`comment-${i}`} style={{}}>{comment.user.name}: {comment.comment}</div>
+                                )}
+                        </div>
                     </div>
                 </div>
                     <div style={{display: 'block', width: '100%'}}>
-                <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#7a8295'}}>
-                    <input style={{height: 40, width: '50%', paddingLeft: 10, fontSize: 20}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
-                    <button style={{width: '20%'}} onClick={this.sendMessage}>send!</button>
+                <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#887286'}}>
+                    <input style={{height: 40, border: '2px solid #e0e0e0', width: '50%', paddingLeft: 10, fontSize: 20, borderRadius: 6}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
                 </div>
                 </div>
             </div>
