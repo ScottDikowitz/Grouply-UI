@@ -129,16 +129,18 @@ class Chat extends React.Component {
 
     render() {
         const {width, height} = this.props.dimensions;
+
+        const mobile = width <= 500 || height > width;
         return (
             <div style={{
                     display: 'flex'
                   , flex: 1
                   , flexDirection: 'column'
                 }}>
-                <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
+                <div style={{background: '#676D51', color: '#fff', padding: 20, zIndex: 2}}>
                     {this.props.curUser.name || <a style={{color: '#fff'}} href={process.env.API_SERVER + '/auth/facebook'}>Facebook</a>}
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: width <= 450 ? 14 : 14}}>
+                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: 14}}>
                     <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5, backgroundColor: '#4d394b', color: '#ab9ba9', width: 220}}>
                         <div>
                             <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
@@ -174,16 +176,16 @@ class Chat extends React.Component {
                           , flexDirection: 'column'
                         }}>
                         <div style={{display: 'flex', justifyContent: 'center', background: '#ccc', padding: 15}}>{this._curRoom}</div>
-                        <div ref='scrollbox' style={{alignItems: 'flex-start', width: '100%', flexDirection: 'column', fontSize: '1.6em', padding: 15, overflowY: 'scroll', boxSizing: 'border-box'}}>
+                        <div ref='scrollbox' style={{alignItems: 'flex-start', width: '100%', flexDirection: 'column', fontSize: mobile ? 25 : 15, padding: 15, overflowY: 'scroll', boxSizing: 'border-box'}}>
                                 {this.props.comments.map((comment, i)=>
-                                    <div key={`comment-${i}`} style={{}}>{comment.user.name}: {comment.comment}</div>
+                                    <div key={`comment-${i}`} style={{padding: 10}}>{comment.user.name}<br/>{comment.comment}</div>
                                 )}
                         </div>
                     </div>
                 </div>
                     <div style={{display: 'block', width: '100%'}}>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#887286'}}>
-                    <input style={{height: 40, border: '2px solid #e0e0e0', width: width <= 500 || height > width ? '100%' : '50%', paddingLeft: 10, fontSize: 20, borderRadius: 6}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
+                    <input style={{height: mobile ? 80 : 40, border: '2px solid #e0e0e0', width: mobile ? '100%' : '50%', paddingLeft: 10, fontSize: mobile ? 30 : 20, borderRadius: 6}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
                 </div>
                 </div>
             </div>
