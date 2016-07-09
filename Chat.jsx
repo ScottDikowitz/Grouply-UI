@@ -128,6 +128,7 @@ class Chat extends React.Component {
     }
 
     render() {
+        const {width, height} = this.props.dimensions;
         return (
             <div style={{
                     display: 'flex'
@@ -137,7 +138,7 @@ class Chat extends React.Component {
                 <div style={{background: '#ff3850', color: '#fff', padding: 20, zIndex: 2}}>
                     {this.props.curUser.name || <a style={{color: '#fff'}} href={process.env.API_SERVER + '/auth/facebook'}>Facebook</a>}
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: this.props.dimensions.width <= 450 ? 14 : 14}}>
+                <div style={{display: 'flex', flexDirection: 'row', flex: 1, fontSize: width <= 450 ? 14 : 14}}>
                     <div style={{display: 'flex', flexDirection: 'row', borderRight: `2px solid #ccc`, padding: 5, backgroundColor: '#4d394b', color: '#ab9ba9', width: 220}}>
                         <div>
                             <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column', alignSelf: 'flex-start'}}>
@@ -182,7 +183,7 @@ class Chat extends React.Component {
                 </div>
                     <div style={{display: 'block', width: '100%'}}>
                 <div className='chat-bar' style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 20, background: '#887286'}}>
-                    <input style={{height: 40, border: '2px solid #e0e0e0', width: '50%', paddingLeft: 10, fontSize: 20, borderRadius: 6}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
+                    <input style={{height: 40, border: '2px solid #e0e0e0', width: width <= 500 || height > width ? '100%' : '50%', paddingLeft: 10, fontSize: 20, borderRadius: 6}} onChange={this.changeMessage} onKeyPress={this.handleKeyPress} type="text" value={this.state.message}/>
                 </div>
                 </div>
             </div>
