@@ -1,7 +1,5 @@
 # Grouply
 
-http://grouplyui.herokuapp.com/
-
 ## Summary
 
 Grouply is a responsive, slack-like chat app which uses the latest technologies such as Socket.io, Webpack, Node.js and React-Redux to enable group chatting.
